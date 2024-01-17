@@ -1,0 +1,604 @@
+<html lang="en" style="border-radius: 10px">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../actionbar.css" />
+
+    <style>
+      @font-face {
+        font-family: "Courgette";
+        src: url("../fonts/Courgette-Regular.ttf");
+      }
+      *,
+      *::after,
+      *::before {
+        margin: 0;
+        padding: 0;
+        font-family: "Courgette";
+        user-select: none;
+        -webkit-user-drag: none;
+        -webkit-app-region: no-drag;
+        cursor: default;
+        overflow: hidden;
+      }
+      body {
+        background-color: #171717;
+        color: rgb(184, 184, 184);
+      }
+
+      h1,
+      p {
+        overflow: visible;
+      }
+
+      #playbutton {
+        transition: text-shadow 0.25s;
+      }
+
+      .launcherpage {
+        transition: opacity 0.25s;
+      }
+
+      #closeaccountmanager {
+        transition: filter 0.25s;
+      }
+
+      #account {
+        transition: filter 0.25s;
+      }
+
+      #loginpopup {
+        transition: opacity 0.25s;
+      }
+
+      #closeloginpopup {
+        transition: filter 0.25s;
+      }
+
+      #addaccount {
+        transition: filter 0.25s;
+      }
+
+      #errorsubmit {
+        transition: filter 0.25s;
+      }
+
+      .deleteBtn {
+        transition: text-shadow 0.25s;
+      }
+
+      .deleteBtn:hover {
+        text-shadow: 0px 0px 10px white;
+      }
+
+      .slider {
+        appearance: none;
+        background-color: #fdfdfd;
+        height: 5px;
+        overflow: visible;
+        border-radius: 10px;
+      }
+
+      .slider::-webkit-slider-thumb {
+        appearance: none;
+        background-color: white;
+        box-shadow: 0px 0px 0px 4px #860ded inset;
+        border-radius: 10px;
+        height: 15px;
+        width: 15px;
+      }
+
+      #fullscreen {
+        appearance: none;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 0px 0px 0px #860ded inset;
+
+        width: 20px;
+        height: 20px;
+        transition: box-shadow 0.15s;
+      }
+
+      #fullscreen:checked {
+        box-shadow: 0px 0px 0px 5px #860ded inset;
+        border: none;
+      }
+
+      .number {
+        appearance: none;
+        border: none;
+        border-radius: 5px;
+        width: 100px;
+        height: 25px;
+        box-shadow: 0px 0px 0px 0px #860ded inset;
+        padding: 0 5px 0 5px;
+        transition: box-shadow 0.15s;
+      }
+
+      .number:focus {
+        outline: none;
+        box-shadow: 0px 0px 0px 2px #860ded inset;
+      }
+
+      .number::-webkit-inner-spin-button,
+      .number::-webkit-outer-spin-button {
+        display: none;
+      }
+
+      #preconfigres {
+        text-align: center;
+        appearance: none;
+        border-radius: 5px;
+        margin-top: 10px;
+        width: 100px;
+        height: 25px;
+        box-shadow: 0px 0px 0px 0px #860ded inset;
+        transition: box-shadow 0.15s;
+        border: none;
+      }
+
+      #preconfigres:focus {
+        outline: none;
+        box-shadow: 0px 0px 0px 2px #860ded inset;
+      }
+
+      @keyframes loading {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <!--Strutures-->
+  <body>
+    <div
+      id="blackbackground"
+      class="launcherpage"
+      style="
+        background-color: #121212;
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0%;
+        transition: opacity 0.25s;
+      "
+    ></div>
+    <!--Title bar-->
+    <div id="titlebar" style="-webkit-app-region: drag; z-index: 5">
+      <div
+        id="maintenance"
+        style="
+          -webkit-app-region: drag;
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-top: 10;
+          width: 100%;
+          z-index: 5;
+        "
+      >
+        <img
+          src="../assets/circle.svg"
+          style="
+            width: 20px;
+            -webkit-app-region: drag;
+            z-index: 5;
+            fill: yellow;
+          "
+        />
+        <p
+          style="
+            -webkit-app-region: drag;
+            font-size: 13;
+            text-align: center;
+            padding-left: 10;
+            z-index: 5;
+          "
+        >
+          Vous êtes un alcoolo !
+        </p>
+      </div>
+      <div id="actionbar" style="z-index: 5">
+        <input id="settings" type="image" src="../assets/settings.svg" />
+        <input id="reduce" type="image" src="../assets/minimize.svg" />
+        <input id="close" type="image" src="../assets/close.svg" />
+      </div>
+    </div>
+    <!-- Affiche d'un chargement-->
+    <div
+      class="launcherpage"
+      id="loading"
+      style="
+        opacity: 0%;
+        position: absolute;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 80vh;
+        justify-content: center;
+      "
+    >
+      <h1 style="padding-bottom: 25px">Loading Message</h1>
+      <img
+        src="../assets/RiftenLogo.png"
+        style="width: 25%; animation: loading infinite 5s linear"
+      />
+    </div>
+    <!--Affiche erreur de connexion-->
+    <div
+      class="launcherpage"
+      id="nointernet"
+      style="
+        opacity: 0%;
+        position: absolute;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <p style="text-align: center; font-size: 1.2rem">
+        Internet Error Message
+      </p>
+      <img
+        src="../assets/no connection.png"
+        style="padding-top: 25px; width: 60%"
+      />
+    </div>
+    <!--Affiche erreurs autres-->
+    <div
+      class="launcherpage"
+      id="error"
+      style="
+        opacity: 0%;
+        position: absolute;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <p style="text-align: center; font-size: 1.2rem; padding: 0 10 0 10">
+        Error Message
+      </p>
+      <p
+        style="
+          text-align: center;
+          font-size: 0.75rem;
+          color: rgb(116, 116, 116);
+        "
+      >
+        Code erreur : errType_codeNumber
+      </p>
+      <img src="../assets/error.png" style="padding-top: 25px; width: 60%" />
+      <div
+        id="errorsubmit"
+        style="
+          background-color: #0c0c0c;
+          border-radius: 25px;
+          padding: 10 50 10 50;
+          font-size: 24;
+          margin-top: 10;
+        "
+      >
+        <p>Compris</p>
+      </div>
+    </div>
+    <!--Le launcher-->
+
+    <div
+      class="launcherpage"
+      id="mainlauncher"
+      style="
+        opacity: 0%;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        margin-top: -10;
+      "
+    >
+      <video
+        src="../assets/background.mov"
+        autoplay
+        loop
+        muted
+        style="
+          position: absolute;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          object-fit: cover;
+        "
+      ></video>
+      <div id="top">
+        <div
+          style="
+            font-size: 29;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            z-index: 1;
+            margin-top: 10;
+          "
+        >
+          <h1 style="font-size: 48; padding: 0; width: 100%">
+            Bienvenue sur RiftenRP
+          </h1>
+          <p>Ce nouveau monde, n'attends que vous</p>
+        </div>
+      </div>
+      <div
+        id="bottom"
+        style="
+          display: flex;
+          justify-content: space-between;
+          background-color: #121212;
+          width: 100%;
+          height: 132px;
+          position: fixed;
+          bottom: 0;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            width: 25%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <img
+            id="account"
+            src="../assets/stevehead.png"
+            style="
+              width: 72px;
+              height: 72px;
+              border-radius: 80%;
+              align-content: center;
+              z-index: 1;
+            "
+          />
+          <p id="accounttext" style="font-size: 24; padding-left: 21">Steve</p>
+        </div>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            width: 25%;
+          "
+        >
+          <p id="playButton" style="font-size: 36">JOUER</p>
+          <div
+            style="
+              width: 100%;
+              height: 7;
+              margin-top: 15;
+              display: flex;
+              flex-direction: column;
+              position: absolute;
+              left: 0;
+              bottom: 0;
+            "
+          >
+            <div style="background-color: #171717; width: 100%; height: 100%">
+              <div
+                id="progressbar"
+                style="
+                  background-color: white;
+                  width: 0%;
+                  height: 100%;
+                  transition: width 0.1s;
+                "
+              ></div>
+            </div>
+          </div>
+          <p
+            id="downloadstatus"
+            style="
+              position: relative;
+              bottom: 0;
+              text-align: center;
+              font-size: 13;
+              margin-top: 5;
+              width: 100%;
+              position: absolute;
+              left: 0;
+              bottom: 0;
+              padding-bottom: 8;
+            "
+          >
+            Commencez l'aventure !
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--Page de connexion-->
+    <div
+      class="launcherpage"
+      id="connectionmenu"
+      style="
+        opacity: 0%;
+        background-color: #1f1f1f;
+        width: 80%;
+        height: 80%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div
+        id="noaccount"
+        style="
+          opacity: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+        "
+      >
+        <p style="font-size: 36">Pas de compte associé...</p>
+        <div
+          id="addaccount"
+          style="
+            background-color: #0c0c0c;
+            border-radius: 25px;
+            padding: 10 15 10 15;
+            font-size: 24;
+            margin-top: 10;
+          "
+        >
+          <p>Ajouter un compte</p>
+        </div>
+      </div>
+
+      <div
+        id="accountmenu"
+        style="
+          opacity: 0%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        "
+      >
+        <!--C'est ici que les comptes seront affichés-->
+      </div>
+      <img
+        id="closeaccountmanager"
+        src="../assets/close.svg"
+        style="position: absolute; width: 3%; top: -5; right: 0; padding: 10"
+      />
+    </div>
+    <!--Page des paramètres-->
+    <div
+      id="settingsmenu"
+      style="
+        background-color: 1F1F1F;
+        width: 240px;
+        height: 100%;
+        position: absolute;
+        left: -240px;
+        top: 0;
+        transition: left 0.25s ease-out;
+        z-index: 3;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            text-align: center;
+            font-size: 18;
+            align-items: center;
+          "
+        >
+          <p>Résolution du jeu</p>
+          <div style="display: flex; width: 130; padding-top: 10">
+            <input
+              class="number"
+              id="resX"
+              type="number"
+              style="margin-right: 10"
+            />
+            <p>x</p>
+            <input
+              class="number"
+              id="resY"
+              type="number"
+              style="margin-left: 10"
+            />
+          </div>
+          <select id="preconfigres">
+            <option value="default" hidden>Résolutions</option>
+            <optgroup label="Ratio 4:3">
+              <option value="640x480">640 x 480</option>
+              <option value="800x600">800 x 600</option>
+              <option value="1024x768">1024 x 768</option>
+              <option value="1280x960">1280 x 960</option>
+              <option value="1280x1024">1280 x 1024</option>
+            </optgroup>
+            <optgroup label="Ratio 16:9">
+              <option value="854x480">854 x 480</option>
+              <option value="1280x720">1280 x 720</option>
+              <option value="1360x768">1360 x 768</option>
+              <option value="1600x900">1600 x 900</option>
+              <option value="1920x1080">1920 x 1080</option>
+            </optgroup>
+          </select>
+        </div>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            margin-top: 20%;
+            font-size: 18;
+          "
+        >
+          <p>Jeu en plein écran :</p>
+          <input id="fullscreen" type="checkbox" style="margin-left: 10" />
+          <span class="slider round"></span>
+        </div>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            margin-top: 20%;
+            font-size: 18;
+          "
+        >
+          <p>Ram allouées</p>
+          <input
+            id="ram"
+            type="range"
+            class="slider"
+            min="1024"
+            max="8192"
+            step="1024"
+            style="margin-top: 10; margin-right: 10"
+          />
+          <p id="ramIndicator" style="margin-top: 10px; font-size: 14px">
+            Alloué actuellement : 1024Go
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+  <!--Initialisation des scripts-->
+  <script src="../Scripts/titlebar.js"></script>
+  <script src="../Scripts/UIcore.js"></script>
+</html>

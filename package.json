@@ -1,0 +1,78 @@
+{
+  "name": "riftenlauncher",
+  "version": "1.0.0",
+  "description": "Launcher RiftenRP",
+  "main": "./src/MainElectron.js",
+  "author": "ItsBursty",
+  "scripts": {
+    "start": "npm run build && electron .",
+    "build": "tsc",
+    "dist-win": "electron-builder -w",
+    "dist-linux": "electron-builder -l"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ItsBursty/riftenlauncher.git"
+  },
+  "license": "All rights reserved",
+  "bugs": {
+    "url": "https://github.com/ItsBursty/riftenlauncher/issues"
+  },
+  "homepage": "https://github.com/ItsBursty/riftenlauncher#readme",
+  "devDependencies": {
+    "@types/discord-rpc": "^4.0.3",
+    "@types/download": "^8.0.1",
+    "@types/ssh2-sftp-client": "^7.0.1",
+    "electron": "^17.4.4",
+    "electron-builder": "^23.0.3",
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.0.8",
+    "@xmcl/core": "^2.9.0",
+    "@xmcl/gamesetting": "^2.0.2",
+    "@xmcl/installer": "^4.2.0",
+    "@xmcl/user": "^2.1.7",
+    "appdata-path": "^1.0.0",
+    "axios": "^0.26.1",
+    "discord-rpc": "^4.0.1",
+    "download": "^8.0.0",
+    "is-online": "^9.0.1",
+    "ssh2-sftp-client": "^7.2.3"
+  },
+  "build": {
+    "appId": "riftenrp-launcher",
+    "productName": "RiftenRP Launcher",
+    "directories": {
+      "output": "./build"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "./assets/RiftenLogo.ico"
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "snap",
+        "rpm"
+      ],
+      "category": "Utility"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "./assets/RiftenLogo.ico",
+      "uninstallerIcon": "./assets/RiftenLogo.ico",
+      "uninstallDisplayName": "RiftenUninstaller",
+      "artifactName": "riftensetup.${ext}"
+    }
+  }
+}

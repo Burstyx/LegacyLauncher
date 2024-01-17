@@ -1,0 +1,32 @@
+#titlebar {
+  background-color: rgb(14, 14, 14);
+  margin-bottom: 10;
+  height: fit-content;
+  -webkit-app-region: drag;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+#actionbar input {
+  -webkit-app-region: no-drag;
+  background-color: transparent;
+  color: rgb(184, 184, 184);
+  width: 30px;
+  height: 20px;
+  padding: 8px;
+}
+
+#reduce:hover,
+#settings:hover {
+  background-color: rgb(83, 83, 83);
+}
+
+#close:hover {
+  background-color: red;
+}
+
+#actionbar {
+  display: flex;
+  flex-direction: row;
+  height: min-content;
+}
